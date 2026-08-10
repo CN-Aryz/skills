@@ -1,0 +1,4 @@
+interface:
+  display_name: "VRChat UdonSharp"
+  short_description: "Cross-project UdonSharp development and debugging"
+  default_prompt: "Use $vrchat-udonsharp to implement or debug this UdonSharp feature using the current project's SDK and conventions."

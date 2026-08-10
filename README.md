@@ -10,6 +10,7 @@ This repository follows the useful parts of Matt Pocock's style: keep skills foc
 agent-skills/
 ├── skills/
 │   ├── engineering/
+│   │   └── vrchat-udonsharp/
 │   └── productivity/
 ├── scripts/validate_skills.py
 ├── AGENTS.md
@@ -18,6 +19,10 @@ agent-skills/
 ```
 
 Use `engineering/` for software-development workflows and `productivity/` for general workflows. Add more categories only when they clarify discovery.
+
+Included skills:
+
+- `engineering/vrchat-udonsharp` — develop, debug, review, and migrate VRChat Worlds UdonSharp behaviours.
 
 ## Install into a project
 
