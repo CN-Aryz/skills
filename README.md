@@ -23,6 +23,7 @@ Use `engineering/` for software-development workflows and `productivity/` for ge
 Included skills:
 
 - `engineering/vrchat-udonsharp` — develop, debug, review, and migrate VRChat Worlds UdonSharp behaviours.
+- `engineering/vrchat-world-shaders` — write VRChat world shaders, materials, and VFX under the 2022.3.22f1 + Built-in RP constraints.
 
 ## Install into a project
 
