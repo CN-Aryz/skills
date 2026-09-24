@@ -1,6 +1,6 @@
 ---
 name: vrchat-world-shaders
-description: Use when writing VRChat world shaders and VFX under BiRP. Also for Build Panel material/shader warnings, SPS-I stereo eye bugs, and Quest shader validation.
+description: Use when writing VRChat world shaders and VFX under BiRP. Triggers: toon, dissolve, outline, distortion, stylized materials, particle effects, VRChat Build Panel material/shader/texture warnings, SPS-I stereo eye bugs, Quest world shader whitelist questions.
 ---
 
 # VRChat 世界：特效与风格化材质
@@ -16,6 +16,19 @@ description: Use when writing VRChat world shaders and VFX under BiRP. Also for 
 - VRChat SDK Build Panel 报材质 / shader / 贴图相关告警，或头显里出现单眼渲染错误。
 
 不适用：avatar shader（Quest 有白名单）、非 VRChat 的 Unity 项目、URP/HDRP 项目。
+
+## 速查路由
+
+拿到任务先跳到对应章节，不要从头通读：
+
+| 任务 | 先看 |
+|---|---|
+| 写 / 改风格化 shader、特效 | 第 1 节硬约束 → 第 3 节机制选型 → 第 5 节工作流 |
+| Build Panel 出黄条 / 红条 | 第 4 节 → [references/build-validation.md](references/build-validation.md)（严重度模型 + 源码行号 + Auto Fix 副作用） |
+| 头显里单眼错位 / 重影 | 第 1.4 条 stereo 宏 → 第 5.4 条失败分类 |
+| Editor 有效果、VRChat 里没有 | 第 3.6 条（Reference Camera 禁用）→ 第 4 节 #4、#5 |
+| 提交前自查 | 第 5.5 条清单 |
+| 场景搭建 / VRC 组件 / 图层 / 上传 / Udon | 不在本 skill，见第 6 节路由 |
 
 ## 1. 硬约束（不可协商）
 
@@ -70,7 +83,7 @@ description: Use when writing VRChat world shaders and VFX under BiRP. Also for 
 
 性能通用规则（移动端 GPU 指南，Quest 属 Adreno）：`half` 优先、避免动态分支、限制每 fragment 纹理采样数、少开 render target 切换。这类通用知识可参考社区 `mobile-shader-optimization` 一类的 skill，但**其中 URP/Shader Graph 段落要按 BiRP 改写后再用**。
 
-## 4. Build Panel 常见错误（NEVER）
+## 4. 常见错误（NEVER）
 
 | # | NEVER | 为什么 | 改为 |
 |---|-------|--------|------|
@@ -87,7 +100,10 @@ Auto Fix 副作用分级（借鉴 niaka3dayo/agent-skills-vrc-udon 的 fix-safet
 
 agent 无法 headless 驱动 2022 Editor，效果验收在用户一侧：
 
-1. agent 产出：`.shader` / `.hlsl` 完整可编译文件 + 材质参数表（属性名、推荐值、关键词），写进项目 Assets 下的明确路径。
+1. **agent 交付固定三件套**（缺一即视为未完成）：
+   - `.shader` / `.hlsl` 完整可编译文件，写入项目 Assets 下的明确路径。文件头注释三行：管线（BiRP）；stereo 状态（surface 自动生成 / 宏链已补齐 / 未处理——未处理必须显式标出）；目标平台（PC / 含 Quest）。
+   - 材质参数表（markdown 表格）：属性名 | 类型 | 默认值 | 说明 | 关联 Keyword。
+   - 验证声明一行：哪些已在本地日志确认编译、哪些**未经验证**（头显效果、Quest 性能、Editor 外行为一律归入未验证，除非有实测证据）。
 2. 用户在 Editor 里：赋材质 → 调参 → 看 Scene/Game 视图（必要时 Play 模式看粒子）。
 3. **日志由同机 agent 直接读**（Codex、Pi 等能自动拉 Editor 日志的环境不需要用户回贴控制台文本）；用户只需回传**视觉结果**：效果描述、截图、头显观感。跨机无法读日志时才让用户回贴报错原文。
 4. 常见失败分类：编译错误（语法/API 版本）→ 读日志直接修；无报错但无效果 → 查关键词没开、贴图没赋、`_CameraDepthTexture` 未启用、材质 keyword 与 pass 不匹配；Editor 正常但头显异常 → 优先查 stereo 宏（第 1.4 条）与客户端运行时差异（第 4 节 #4）；性能问题 → 看 overdraw 与采样数，而不是先优化顶点。

@@ -10,7 +10,8 @@ This repository follows the useful parts of Matt Pocock's style: keep skills foc
 agent-skills/
 ├── skills/
 │   ├── engineering/
-│   │   └── vrchat-udonsharp/
+│   │   ├── vrchat-udonsharp/
+│   │   └── vrchat-world-shaders/
 │   └── productivity/
 ├── scripts/validate_skills.py
 ├── AGENTS.md
@@ -23,7 +24,7 @@ Use `engineering/` for software-development workflows and `productivity/` for ge
 Included skills:
 
 - `engineering/vrchat-udonsharp` — develop, debug, review, and migrate VRChat Worlds UdonSharp behaviours.
-- `engineering/vrchat-world-shaders` — write VRChat world shaders, materials, and VFX under the 2022.3.22f1 + Built-in RP constraints.
+- `engineering/vrchat-world-shaders` — write VRChat world shaders, materials, and VFX under the 2022.3.22f1 + Built-in RP constraints; triage Build Panel material/shader/texture warnings (catalog in its `references/build-validation.md`, source-verified against SDK 3.10.5) and fix SPS-I stereo eye bugs.
 
 ## Install into a project
 
